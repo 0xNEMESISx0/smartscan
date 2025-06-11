@@ -42,7 +42,6 @@ def get_ipinfo(target):
     except Exception as e:
         print(f"[!] Error getting IP info: {e}")
 
-# ---- USAGE & RISKS ----
 def usage_and_risks(port):
     known_ports = {
         21: ("FTP (File Transfer)", "Plaintext, sniffing risk"),
@@ -201,7 +200,7 @@ def scan_udp(target, port):
     return None
 
 def main():
-    print("🚩 Tip: For live CVE search, register for a free API Key at https://nvd.nist.gov/developers/request-an-api-key and run with --cve-mode online --api-key YOUR_KEY\n")
+    print("Tip: For live CVE search, register for a free API Key at https://nvd.nist.gov/developers/request-an-api-key and run with --cve-mode online --api-key YOUR_KEY\n")
     parser = argparse.ArgumentParser(description="Smart Port Scanner (No Server Info)")
     parser.add_argument("--target", required=True, help="Target IP or domain")
     parser.add_argument("-p", "--ports", default="1-1024", help="Ports range (e.g., 20-1000)")
@@ -245,10 +244,8 @@ def main():
         else:
             r["cves"] = []
 
-    # فلترة البورتات المهمة فقط
     filtered_ports = [r for r in open_ports if r["usage"] != "Unknown"]
 
-    # عرض النتائج في جدول
     if filtered_ports:
         table = [[
             r["port"],
@@ -266,7 +263,6 @@ def main():
     else:
         print("\n[-] No important (well-known) open ports found.")
 
-    # Export JSON if needed
     if args.output:
         with open(args.output, "w") as f:
             json.dump(filtered_ports, f, indent=2)
